@@ -1,56 +1,15 @@
 import express from "express";
-
-const posts = [
-    {
-      id: 1,
-      descricao: "Uma foto teste",
-      imagem: "https://placecats.com/millie/300/150"
-    },
-    {
-      id: 2,
-      descricao: "Gato fazendo yoga",
-      imagem: "https://placekitten.com/400/200"
-    },
-    {
-      id: 3,
-      descricao: "Paisagem com um gato",
-      imagem: "https://placekitten.com/600/300"
-    },
-    {
-      id: 4,
-      descricao: "Gato brincando com um novelo de lã",
-      imagem: "https://placekitten.com/200/400"
-    },
-    {
-      id: 5,
-      descricao: "Gato dormindo em uma caixa",
-      imagem: "https://placekitten.com/300/300"
-    },
-    {
-      id: 6,
-      descricao: "Gato olhando pela janela",
-      imagem: "https://placekitten.com/500/200"
-    }
-  ];
+import routes from "./src/routes/postsRoutes.js";
+// Importa o framework Express, que será utilizado para criar o servidor web. 
+// O Express facilita a criação de APIs e aplicações web em Node.js.
 
 const app = express();
-app.use(express.json());
+// Cria uma instância do Express, que será o nosso servidor web. 
+// Essa instância é como um contêiner que irá armazenar todas as rotas e funcionalidades da nossa aplicação.
+routes(app)
 
-app.listen (3000, () => {
+app.listen(3000, () => {
     console.log("Servidor escutando...");
 });
-
-app.get("/posts", (req, res) => {
-    res.status(200).json(posts);
-});
-
-function buscarPostPorID(id) {
-    return posts.findIndex((post) => {
-        return post.id === Number(id)
-    })
-}
-
-app.get("/posts/:id", (req, res) => {
-    const index = buscarPostPorID(req.params.id)
-    res.status(200).json(posts[index]);
-});
+// Inicia o servidor na porta 3000. 
+// Quando o servidor estiver pronto para receber requisições, a função de callback é executada, e uma mensagem é exibida no console informando que o servidor está ouvindo.
