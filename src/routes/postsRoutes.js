@@ -4,8 +4,15 @@ import express from "express";
 import multer from "multer";
 // Importa o módulo Multer, que será utilizado para lidar com o upload de arquivos (imagens no nosso caso).
 
-import { listarPosts, postarNovoPost, uploadImagem } from "../controllers/postsController.js";
+import { listarPosts, postarNovoPost, uploadImagem, atualizarNovoPost } from "../controllers/postsController.js";
 // Importa as funções para listar posts, criar novos posts e fazer o upload de imagens, que estão definidas no arquivo `postsController.js`.
+
+import cors from "cors";
+
+const corsOptions = {
+    origin: "http://localhost:8000",
+    optionsSuccessStatus: 200
+}
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -27,6 +34,7 @@ const routes = (app) => {
     app.use(express.json());
     // Habilita o middleware `express.json()`. Esse middleware permite que o Express entenda requisições com corpo no formato JSON. 
     // Isso é fundamental para receber dados enviados em formato JSON, como em requisições POST ou PUT.
+    app.use(cors(corsOptions));
 
     app.get("/posts", listarPosts);
     // Define uma rota GET para a URL "/posts". 
@@ -40,6 +48,8 @@ const routes = (app) => {
     // Define uma rota POST para a URL "/upload". 
     // O middleware `upload.single("imagem")` configura o Multer para lidar com o upload de um único arquivo com o nome "imagem". 
     // Quando uma requisição POST for feita para essa URL, o arquivo será salvo na pasta configurada e a função `uploadImagem` será chamada para processar o arquivo.
+
+    app.put("/upload/:id", atualizarNovoPost)
 };
 
 export default routes;
